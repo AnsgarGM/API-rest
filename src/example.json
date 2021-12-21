@@ -1,0 +1,16 @@
+[
+    {
+        "id": "1",
+        "titulo": "Aliens",
+        "director": "James Cameron",
+        "anio": "2015",
+        "rating": "8.6"
+    },
+    {
+        "id": "2",
+        "titulo": "Batman",
+        "director": "Cristopher Nolan",
+        "anio": "2008",
+        "rating": "10"
+    }
+]
