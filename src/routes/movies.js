@@ -1,7 +1,8 @@
 const { Router } = require( 'express' );
 const router = Router();
-const _ = require( 'underscore' );
+const fs = require( 'fs' );
 const mysql = require( 'mysql' );
+const path = require('path');
 
 // MySQL
 const connection = mysql.createConnection( {
@@ -33,16 +34,35 @@ router.get( '/', ( req, res ) => {
     } );
 } );
 
+router.get( '/:id', ( req, res ) => {
+    //res.json( connection );
+    const { id } = req.params;
+    const sql = `SELECT * FROM movies WHERE id = '${ id }'`;
+    connection.query( sql, ( err, result ) => {
+        if( err ) throw err;
+        if( result.length > 0 ){
+            res.json( result );
+        } else {
+            res.send( 'No hay registros en base de datos' );
+        }
+    } );
+} );
+
 router.post( '/', ( req, res ) => {
     const { titulo, director, anio, rating } = req.body;
     //console.log( req.body );
+    const old = req.files[0].path;
+    const newn = req.files[0].path + path.parse( req.files[0].originalname ).ext
+    fs.renameSync( old, newn );
+    console.log( newn );
     const sql = 'INSERT INTO movies SET ?';
     if( titulo && director && anio && rating ){
         const newobj = {
             titulo: titulo,
             director: director,
             anio: anio,
-            rating, rating
+            rating: rating,
+            archdir: newn
         }
         connection.query( sql, newobj, error => {
             if( error ){
