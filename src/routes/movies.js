@@ -88,6 +88,19 @@ router.post( '/', ( req, res ) => {
 
 router.delete( '/:id', ( req, res ) => {
     const { id } = req.params;
+
+    const s = `SELECT archdir FROM movies WHERE id = '${ id }'`;
+    connection.query( s, ( error, result ) => {
+        if( error ) throw error;
+        try{
+            fs.unlinkSync( "./src/uploads/" + result[0].archdir );
+            console.log( "Archivo " + result[0].archdir + " borrado" );
+        } catch( error ) {
+            console.error( "Algo salió mal: ", error );
+        }
+    } );
+
+
     const sql = `DELETE FROM movies WHERE id = '${ id }'`;
     connection.query( sql, error => {
         if( error ) throw error;
