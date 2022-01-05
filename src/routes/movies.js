@@ -53,9 +53,9 @@ router.post( '/', ( req, res ) => {
     //console.log( req.body );
     const old = req.files[0].path;
     const dir = req.files[0].path + path.parse( req.files[0].originalname ).ext
-    const newn = req.files[0].originalname + path.parse( req.files[0].originalname ).ext
+    const newn = req.files[0].filename + path.parse( req.files[0].originalname ).ext
     fs.renameSync( old, dir );
-    console.log( newn );
+    console.log( req.files );
     const sql = 'INSERT INTO movies SET ?';
     if( titulo && director && anio && rating ){
         const newobj = {
