@@ -48,12 +48,18 @@ router.get( '/:id', ( req, res ) => {
     } );
 } );
 
+router.get( '/uploads/:img', ( req, res ) => {
+    const { img } = req.params
+    res.sendFile( `${ img }`, { root: './src/uploads/' } );
+} );
+
 router.post( '/', ( req, res ) => {
     const { titulo, director, anio, rating } = req.body;
     //console.log( req.body );
     const old = req.files[0].path;
     const dir = req.files[0].path + path.parse( req.files[0].originalname ).ext
     const newn = req.files[0].filename + path.parse( req.files[0].originalname ).ext
+    //const newn = req.files[0].path + path.parse( req.files[0].originalname ).ext
     fs.renameSync( old, dir );
     console.log( req.files );
     const sql = 'INSERT INTO movies SET ?';
